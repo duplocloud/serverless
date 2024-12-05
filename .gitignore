@@ -9,6 +9,7 @@ stuff/
 foo.*
 .serverless
 *.tgz
+.npmrc
 
 # can be ignored globally, we do want the tasks
 !.vscode

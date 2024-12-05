@@ -55,7 +55,6 @@ runs:
 
   - name: Set up Node ${{ inputs.node-version }}
     uses: actions/setup-node@v4
-    if: inputs.install
     with:
       node-version: ${{ inputs.node-version }}
       cache: npm

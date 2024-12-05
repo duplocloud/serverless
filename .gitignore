@@ -1,0 +1,14 @@
+node_modules
+dist
+config
+.envrc
+.idea
+.DS_Store
+.direnv
+stuff/
+foo.*
+.serverless
+
+# can be ignored globally, we do want the tasks
+!.vscode
+.vscode/settings.json

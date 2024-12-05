@@ -1,0 +1,42 @@
+name: Tests
+
+on:
+  workflow_dispatch: {}
+  workflow_call: 
+    secrets:
+      GH_APP_KEY:
+        description: GitHub App private key
+        required: true
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: ["18", "19", "20", "21", "22"]
+    steps:
+
+    - name: Setup
+      id: setup
+      uses: ./.github/actions/setup@main
+      with:
+        app-id: ${{ vars.GH_APP_ID }}
+        private-key: ${{ secrets.GH_APP_KEY }}
+        node-version: ${{ matrix.node-version }}
+
+    - name: Audit
+      id: audit
+      run: npm audit
+
+    - name: Lint
+      id: lint
+      run: npm run lint
+
+    - name: Build
+      id: build
+      run: npm run build
+
+    - name: Test
+      id: test
+      run: npm test

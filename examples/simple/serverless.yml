@@ -1,0 +1,25 @@
+app: myapp
+service: hello-world
+
+stages: 
+  dev01:
+    observability: false
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  timeout: 30  
+  stage: dev01
+  apiName: ${self:service}-${opt:stage}
+
+# custom:
+#   duplocloud:
+#     awsid: ${aws:accountId}
+
+functions:
+  helloworld:
+    description: Hello world
+    handler: index.handler
+
+plugins:
+- serverless-duplocloud

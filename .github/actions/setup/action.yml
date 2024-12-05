@@ -1,0 +1,66 @@
+name: Setup
+description: Setup the environment for the release
+inputs:
+  ref:
+    description: The git ref to build on
+    required: false
+  fetch-depth:
+    description: The depth of the git checkout
+    required: false
+  fetch-tags: 
+    description: Whether to fetch tags
+    required: false
+  node-version:
+    description: The node version to use
+    required: false
+    default: "22"
+  app-id:
+    description: The GitHub App ID
+    required: true
+  private-key:
+    description: The GitHub token to use
+    required: true
+  repositories:
+    description: The repositories to get tokens for.
+    required: false
+    default: duploctl
+  submodules:
+    description: Whether to fetch submodules
+    required: false
+    default: "false"
+outputs:
+  token:
+    description: The GitHub App token
+    value: ${{ steps.app-token.outputs.token }}
+runs:
+  using: "composite"
+  steps:
+
+  - name: Create GitHub App Token
+    uses: actions/create-github-app-token@v1
+    id: app-token
+    with:
+      app-id: ${{ inputs.app-id }}
+      private-key: ${{ inputs.private-key }}
+      repositories: ${{ inputs.repositories }}
+
+  - name: Checkout Code
+    uses: actions/checkout@v4
+    with:
+      ref: ${{ inputs.ref }}
+      fetch-depth: ${{ inputs.fetch-depth }}
+      fetch-tags: ${{ inputs.fetch-tags }}
+      token: ${{ steps.app-token.outputs.token }}
+      submodules: ${{ inputs.submodules }}
+
+  - name: Set up Node ${{ inputs.node-version }}
+    uses: actions/setup-node@v4
+    if: inputs.install
+    with:
+      node-version: ${{ inputs.node-version }}
+      cache: npm
+
+  - name: Install Dependencies
+    if: inputs.install
+    shell: bash
+    run: npm ci

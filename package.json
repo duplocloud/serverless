@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/duplocloud/servereless.git"
+    "url": "git+https://github.com/duplocloud/serverless.git"
   },
   "keywords": [
     "serverless"
@@ -13,9 +13,9 @@
   "author": "kelly@duplocloud.net",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/duplocloud/servereless/issues"
+    "url": "https://github.com/duplocloud/serverless/issues"
   },
-  "homepage": "https://github.com/duplocloud/servereless#readme",
+  "homepage": "https://github.com/duplocloud/serverless#readme",
   "scripts": {
     "test": "echo 'No Tests yet'",
     "mocha": "NODE_PATH=src/ TS_NODE_FILES=true nyc mocha --config .mocharc.json $*",

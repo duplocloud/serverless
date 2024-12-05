@@ -21,7 +21,8 @@ export class DuplocloudProvider implements Plugin {
     this.serverless = serverless;
     this.options = options;
     this.provider = this;
-    this.serverless.setProvider(providerName, this);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    this.serverless.setProvider(providerName, this as any);
     this.hooks = []
   }
 

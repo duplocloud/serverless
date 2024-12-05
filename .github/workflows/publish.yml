@@ -1,0 +1,68 @@
+name: NPM Package
+
+on:
+  workflow_dispatch: 
+    inputs:
+      push:
+        description: Push the artifact to npmjs?
+        default: false
+        type: boolean
+      tag:
+        description: Tag to push
+        required: true
+        type: string
+  workflow_call: 
+    inputs:
+      push:
+        description: Push the artifact to npmjs?
+        default: true
+        type: boolean
+      tag:
+        description: Tag to push
+        required: true
+        type: string
+    secrets:
+      NPM_TOKEN:
+        description: NPM token
+        required: true
+      GH_APP_KEY:
+        description: GitHub App private key
+        required: true
+
+jobs:
+  package:
+    name: Package
+    runs-on: ubuntu-latest
+    environment: 
+      name: npmjs
+      url: https://www.npmjs.com/package/serverless-duplocloud
+    steps:
+
+    - name: Setup
+      id: setup
+      uses: duplocloud/serverless/.github/actions/setup@main
+      with:
+        ref: ${{ inputs.tag }}
+        app-id: ${{ vars.GH_APP_ID }}
+        private-key: ${{ secrets.GH_APP_KEY }}
+
+    - name: Build
+      id: build
+      run: npm run build
+
+    - name: Pack
+      id: pack
+      run: npm pack
+
+    - name: Github Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: package
+        path: serverless-duplocloud-*.tgz
+
+    - name: Publish
+      id: publish
+      if: ${{ inputs.push }}
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      run: npm publish --provenance --access public

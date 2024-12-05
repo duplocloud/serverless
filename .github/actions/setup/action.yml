@@ -59,6 +59,7 @@ runs:
     with:
       node-version: ${{ inputs.node-version }}
       cache: npm
+      registry-url: https://registry.npmjs.org
 
   - name: Install Dependencies
     shell: bash

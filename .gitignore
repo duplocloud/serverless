@@ -8,6 +8,7 @@ config
 stuff/
 foo.*
 .serverless
+*.tgz
 
 # can be ignored globally, we do want the tasks
 !.vscode

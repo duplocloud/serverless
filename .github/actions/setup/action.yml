@@ -61,6 +61,5 @@ runs:
       cache: npm
 
   - name: Install Dependencies
-    if: inputs.install
     shell: bash
     run: npm ci

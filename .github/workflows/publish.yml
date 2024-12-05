@@ -33,6 +33,8 @@ jobs:
   package:
     name: Package
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
     environment: 
       name: npmjs
       url: https://www.npmjs.com/package/serverless-duplocloud

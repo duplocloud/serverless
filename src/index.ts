@@ -1,6 +1,5 @@
 import Serverless from 'serverless' 
-import Utils from 'serverless/classes/Utils'
-import { DuplocloudProvider } from "./provider"
+import { DuplocloudProvider } from "./provider/DuplocloudProvider"
 
 class DuplocloudServerless {
 
@@ -8,14 +7,24 @@ class DuplocloudServerless {
   serverless: Serverless
   options: Serverless.Options
   config: DuploConfig
-  utils: Utils
+  utils: ServerlessUtils
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  hooks: any;
 
-  constructor(serverless: Serverless, options: Serverless.Options, utils: Utils) {
+  constructor(serverless: Serverless, options: Serverless.Options, utils: ServerlessUtils) {
     this.serverless = serverless
     this.options = options
     this.utils = utils
-    this.serverless.pluginManager.addPlugin(DuplocloudProvider)
-    console.log('DuplocloudServerless', this.config)
+    this.serverless.pluginManager.addPlugin(DuplocloudProvider as any)
+    console.log('DuplocloudServerless')
+    this.utils.log('Foo Bar')
+    this.hooks = {
+      initialize: () => this.init()
+    }
+  }
+
+  init() {
+    console.log('A plugin named duplocloud')
   }
 
 }

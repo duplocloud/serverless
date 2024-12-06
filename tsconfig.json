@@ -25,7 +25,8 @@
     "allowUnusedLabels": false,
     "types": [
       "node",
-      "jest"
+      "jest",
+      "serverless"
     ],
     "typeRoots": [
       "node_modules/@types"

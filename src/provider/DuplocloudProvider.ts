@@ -8,6 +8,7 @@ export class DuplocloudProvider implements Plugin {
 
   serverless: Serverless;
   options: Serverless.Options;
+  utils: ServerlessUtils;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   provider: any;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -17,13 +18,20 @@ export class DuplocloudProvider implements Plugin {
     return providerName;
   }
 
-  constructor(serverless: Serverless, options: Serverless.Options) {
+  constructor(serverless: Serverless, options: Serverless.Options, utils: ServerlessUtils) {
     this.serverless = serverless;
     this.options = options;
-    this.provider = this;
+    this.utils = utils;
+    // this.provider = this;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     this.serverless.setProvider(providerName, this as any);
-    this.hooks = []
+    this.hooks = {
+      initialize: () => this.init()
+    }
+  }
+
+  init() {
+    (this.utils.log as any).error('The provider is named: ', providerName)
   }
 
   loadConfig(): DuploConfig {

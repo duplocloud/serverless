@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/duplocloud/serverless#readme",
   "scripts": {
-    "test": "echo 'No Tests yet'",
+    "test": "jest",
     "mocha": "NODE_PATH=src/ TS_NODE_FILES=true nyc mocha --config .mocharc.json $*",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "debug": "node --enable-source-maps -r ts-node/register --inspect $(which serverless) print --config examples/simple/serverless.yml --stage dev01",
@@ -25,13 +25,19 @@
     "prettier": "prettier --write \"src/**/*.ts\"",
     "build": "NODE_PATH=src/ TS_NODE_FILES=true tsc",
     "build:prod": "TS_NODE_FILES=true tsc -p tsconfig.prod.json",
-    "clean": "rm -rf node_modules dist public .nyc_output",
+    "clean": "rm -rf node_modules dist coverage",
     "example": "sls print --config examples/simple/serverless.yml --stage dev01"
   },
+  "files": [
+    "dist"
+  ],
   "devDependencies": {
     "@eslint/js": "^9.16.0",
+    "@types/jest": "^29.5.14",
     "@types/serverless": "^3.12.24",
     "eslint": "^9.16.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.2",
     "typescript-eslint": "^8.17.0"

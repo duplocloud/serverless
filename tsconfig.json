@@ -2,6 +2,7 @@
   "compilerOptions": {
     "rootDir": "./src",
     "outDir": "./dist",
+    "baseUrl": "src",
     "module": "commonjs",
     "target": "esnext",
     "sourceMap": true,
@@ -22,9 +23,9 @@
     "removeComments": false,
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
-    "baseUrl": "src",
     "types": [
-      "node"
+      "node",
+      "jest"
     ],
     "typeRoots": [
       "node_modules/@types"

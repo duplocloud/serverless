@@ -10,6 +10,7 @@ foo.*
 .serverless
 *.tgz
 .npmrc
+coverage
 
 # can be ignored globally, we do want the tasks
 !.vscode

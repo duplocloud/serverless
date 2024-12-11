@@ -24,6 +24,7 @@ jobs:
   coverage:
     name: Coverage
     runs-on: ubuntu-latest
+    needs: test
     steps:
     - name: Setup
       id: setup

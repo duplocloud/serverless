@@ -33,9 +33,10 @@ jobs:
         private-key: ${{ secrets.GH_APP_KEY }}
     # download the coverage report artifact
     - name: Download coverage report
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v4
       with:
         name: coverage
+        path: coverage
     - name: Report code coverage
       uses: zgosalvez/github-actions-report-lcov@v3
       with:

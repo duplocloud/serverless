@@ -1,0 +1,109 @@
+{
+  "IsKatkitEnabled": true,
+  "IsSignupEnabled": false,
+  "IsComplianceEnabled": true,
+  "IsBillingEnabled": true,
+  "IsSiemEnabled": true,
+  "IsAwsCloudEnabled": true,
+  "AwsRegions": [
+    "ca-central-1",
+    "us-west-2",
+    "us-west-1",
+    "us-east-2",
+    "us-east-1"
+  ],
+  "DefaultAwsAccount": "123456789066",
+  "DefaultAwsPartition": "aws",
+  "DefaultAwsRegion": "us-west-2",
+  "IsAzureCloudEnabled": false,
+  "IsGoogleCloudEnabled": false,
+  "IsOnPremEnabled": true,
+  "EksVersions": {
+    "DefaultVersion": "1.31",
+    "SupportedVersions": [
+      "1.28",
+      "1.29",
+      "1.30",
+      "1.31"
+    ]
+  },
+  "IsOtpNeeded": false,
+  "IsAwsAdminJITEnabled": true,
+  "IsDuploOpsEnabled": true,
+  "DevopsManagerHostname": "devops.example.com",
+  "TenantNameMaxLength": 12,
+  "IsTagsBasedResourceMgmtEnabled": false,
+  "DuploShellFqdn": "",
+  "S3BucketNamePrefix": "",
+  "EnabledFlags": [
+    "EnableVPN",
+    "HIDE_DEPRECATED_SECURITY_AGENTS",
+    "ENABLE_AWS_BILLING_ALERTS",
+    "ENABLE_COPILOT",
+    "enabledefaultdomaincert"
+  ],
+  "AppConfigs": [
+    {
+      "Type": "AppConfig",
+      "Key": "DUPLO_AUDIT_S3BUCKET",
+      "Value": "duplo-audit-1234567890"
+    },
+    {
+      "Type": "AppConfig",
+      "Key": "DUPLO_AUDIT_S3BUCKET_REGION",
+      "Value": "us-west-2"
+    },
+    {
+      "Type": "AppConfig",
+      "Key": "RDS_AUTOMATED_BACKUP_RETENTION_DAYS",
+      "Value": "2"
+    },
+    {
+      "Type": "AppConfig",
+      "Key": "AWS_APPROVED_RDS_FOR_TENANT_USERS_SETTING",
+      "Value": "0;1;14;2;3;8;9;10;13"
+    },
+    {
+      "Type": "AppConfig",
+      "Key": "AZURE_DEFAULT_MYSQL_GEO_REDUNDANT_BACKUP_ENABLED",
+      "Value": "4"
+    },
+    {
+      "Type": "AppConfig",
+      "Key": "AllowReadonlySecrets",
+      "Value": "False"
+    },
+    {
+      "Type": "AppConfig",
+      "Key": "Agent/Security",
+      "Value": "ossec/k8s"
+    },
+    {
+      "Type": "AppConfig",
+      "Key": "ListAllLambdaLayers",
+      "Value": "true"
+    },
+    {
+      "Type": "AppConfig",
+      "Key": "AllowReadonlyK8sSecrets",
+      "Value": "false"
+    },
+    {
+      "Type": "AppConfig",
+      "Key": "DOCUMENT_STORE_LOCATION",
+      "Value": "duplo-storage-1234567890"
+    },
+    {
+      "Type": "AppConfig",
+      "Key": "MaximumSessionDuration",
+      "Value": "14400"
+    },
+    {
+      "Type": "AppConfig",
+      "Key": "DUPLO_CUSTOM_TAGS",
+      "Value": "Schedule"
+    }
+  ],
+  "DisableOobData": false,
+  "DefaultInfraCloud": "AWS"
+}

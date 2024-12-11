@@ -10,11 +10,14 @@ provider:
   runtime: nodejs20.x
   timeout: 30  
   stage: dev01
-  apiName: ${self:service}-${opt:stage}
+  region: us-west-2
+  tags:
+    App: "${self:app}"
 
-# custom:
-#   duplocloud:
-#     awsid: ${aws:accountId}
+custom:
+  duplocloud:
+    tenant: ${opt:stage}
+    usePrefix: true
 
 functions:
   helloworld:

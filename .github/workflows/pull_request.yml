@@ -20,3 +20,27 @@ jobs:
     name: Test
     uses: ./.github/workflows/test.yml
     secrets: inherit
+
+  coverage:
+    name: Coverage
+    runs-on: ubuntu-latest
+    steps:
+    - name: Setup
+      id: setup
+      uses: duplocloud/serverless/.github/actions/setup@main
+      with:
+        app-id: ${{ vars.GH_APP_ID }}
+        private-key: ${{ secrets.GH_APP_KEY }}
+    # download the coverage report artifact
+    - name: Download coverage report
+      uses: actions/download-artifact@v2
+      with:
+        name: coverage
+    - name: Report code coverage
+      uses: zgosalvez/github-actions-report-lcov@v3
+      with:
+        coverage-files: coverage/*.info
+        minimum-coverage: 70
+        artifact-name: code-coverage-report
+        github-token: ${{ steps.setup.outputs.token }}
+        update-comment: true

@@ -1,0 +1,129 @@
+{
+  "Name": "footester",
+  "Accountid": "102938475610",
+  "Cloud": 0,
+  "Vnet": {
+    "AddressPrefix": "10.145.0.0/16",
+    "SubnetCidr": 0,
+    "Subnets": [
+      {
+        "AddressPrefix": "10.145.8.0/22",
+        "NameEx": "footester-A-private",
+        "Id": "subnet-0cfbe267cfd61c5c1",
+        "Zone": "A",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "footester-A-private"
+          },
+          {
+            "Key": "Reach",
+            "Value": "private"
+          },
+          {
+            "Key": "aws:cloudformation:logical-id",
+            "Value": "SubnetAPrivate"
+          }
+        ],
+        "ServiceEndpoints": [],
+        "IsolatedNetwork": false
+      },
+      {
+        "AddressPrefix": "10.10.10.0/22",
+        "NameEx": "footester-B-private",
+        "Id": "subnet-0778551d435c73081",
+        "Zone": "B",
+        "Tags": [
+          {
+            "Key": "Reach",
+            "Value": "private"
+          },
+          {
+            "Key": "Name",
+            "Value": "footester-B-private"
+          },
+          {
+            "Key": "aws:cloudformation:logical-id",
+            "Value": "SubnetBPrivate"
+          }
+        ],
+        "ServiceEndpoints": [],
+        "IsolatedNetwork": false
+      },
+      {
+        "AddressPrefix": "10.145.0.0/22",
+        "NameEx": "footester-A-public",
+        "Id": "subnet-07c72b2de7633af2c",
+        "Zone": "A",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "footester-A-public"
+          },
+          {
+            "Key": "Reach",
+            "Value": "public"
+          }
+        ],
+        "ServiceEndpoints": [],
+        "IsolatedNetwork": false
+      },
+      {
+        "AddressPrefix": "10.145.4.0/22",
+        "NameEx": "footester-B-public",
+        "Id": "subnet-013df49b4faae7810",
+        "Zone": "B",
+        "Tags": [
+          {
+            "Key": "Reach",
+            "Value": "public"
+          },
+          {
+            "Key": "aws:cloudformation:logical-id",
+            "Value": "SubnetBPublic"
+          }
+        ],
+        "ServiceEndpoints": [],
+        "IsolatedNetwork": false
+      }
+    ],
+    "SecurityGroups": [
+      {
+        "Name": "duplo-allhosts",
+        "SystemId": "sg-sdv908342o45r098",
+        "Rules": [],
+        "ReadOnly": false,
+        "SgType": "host"
+      },
+      {
+        "Name": "duplo-ExternalELB",
+        "SystemId": "sg-isfe08934t094230f",
+        "Rules": [],
+        "ReadOnly": false,
+        "SgType": "lb"
+      }
+    ],
+    "P2SRootCerts": [],
+    "Id": "vpc-1234abcd",
+    "Name": "footester"
+  },
+  "Region": "us-west-2",
+  "AzCount": 2,
+  "EnableK8Cluster": true,
+  "IsServerlessKubernetes": false,
+  "EnableECSCluster": false,
+  "EnableContainerInsights": false,
+  "CustomData": [
+    {
+      "Key": "K8sVersion",
+      "Value": "1.30"
+    }
+  ],
+  "VpcPeers": [],
+  "VpcPeerSubnets": [],
+  "Tags": [],
+  "Type": 0,
+  "HubName": "None",
+  "PlanCreated": false,
+  "ProvisioningStatus": "Complete"
+}

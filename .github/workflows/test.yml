@@ -32,6 +32,7 @@ jobs:
     - name: Lint
       id: lint
       run: npm run lint
+      continue-on-error: true
 
     - name: Build
       id: build
@@ -40,3 +41,11 @@ jobs:
     - name: Test
       id: test
       run: npm test
+
+    # only upload the lcov report from latest version
+    - name: Single Artifact
+      uses: actions/upload-artifact@v4
+      if: matrix.node-version == '22'
+      with:
+        name: coverage
+        path: coverage

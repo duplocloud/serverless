@@ -87,3 +87,7 @@ it('should log provider name when initialized', async () => {
   await provider.init();
   expect(mockUtils.log).toHaveBeenCalledWith('The provider named duplocloud loaded');
 });
+
+it('should say hello', async () => {
+  expect(true).toBe(true);
+});

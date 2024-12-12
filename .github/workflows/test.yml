@@ -44,7 +44,7 @@ jobs:
         --outputFile=./coverage/report.json
 
     # only upload the lcov report from latest version
-    - name: Single Artifact
+    - name: Coverage Artifact
       uses: actions/upload-artifact@v4
       with:
         name: coverage

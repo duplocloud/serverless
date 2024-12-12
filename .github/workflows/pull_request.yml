@@ -48,6 +48,7 @@ jobs:
       with:
         test-script: npm test
         skip-step: install
+        output: report-markdown
     - name: Info
       run: |
         ls -al ./
@@ -56,5 +57,4 @@ jobs:
     - name: Update PR
       uses: marocchino/sticky-pull-request-comment@v2
       with:
-          # pass output from the previous step by id.
-          message: ${{ steps.coverage.outputs.report }}
+        message: ${{ steps.coverage.outputs.report }}

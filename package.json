@@ -8,7 +8,12 @@
     "url": "git+https://github.com/duplocloud/serverless.git"
   },
   "keywords": [
-    "serverless"
+    "serverless",
+    "duplocloud",
+    "cloud",
+    "iac",
+    "lambda",
+    "aws"
   ],
   "author": "kelly@duplocloud.net",
   "license": "MIT",

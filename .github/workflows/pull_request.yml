@@ -46,9 +46,11 @@ jobs:
       id: coverage
       uses: ArtiomTr/jest-coverage-report-action@v2
       with:
-        test-script: npm test
-        skip-step: install
+        # test-script: npm test
+        skip-step: all
         output: report-markdown
+        coverage-file: ./coverage/report.json
+        base-coverage-file: ./coverage/report.json
     - name: Info
       run: |
         ls -al ./

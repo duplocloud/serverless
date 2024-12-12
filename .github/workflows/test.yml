@@ -40,7 +40,12 @@ jobs:
 
     - name: Test
       id: test
-      run: npm test
+      run: >-
+        npm test -- 
+        --ci
+        --json
+        --testLocationInResults 
+        --outputFile=./coverage/report.json
 
     # only upload the lcov report from latest version
     - name: Single Artifact

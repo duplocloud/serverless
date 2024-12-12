@@ -1,6 +1,7 @@
 import { DuplocloudServerless } from '../plugin';
 import { DuplocloudProvider } from '../provider';
 import { getMockServerless, mockOptions, mockUtils } from './mocks';
+import Service from 'serverless/classes/Service'
 
 const simpleService = {
   provider: {
@@ -8,14 +9,14 @@ const simpleService = {
   }
 }
 
-const mockServerless = getMockServerless(simpleService);
+const mockServerless = getMockServerless(simpleService as Service);
 
 // Constructor initializes with valid Serverless, Options and Utils parameters
 it('should initialize with valid parameters and set properties correctly', () => {
   const duploServerless = new DuplocloudServerless(
-    mockServerless as any,
-    mockOptions as any, 
-    mockUtils as any
+    mockServerless,
+    mockOptions, 
+    mockUtils
   );
 
   expect(duploServerless.serverless).toBe(mockServerless);

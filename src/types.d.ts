@@ -7,26 +7,61 @@ declare type DuploConfig = {
   tenant?: string;
 }
 
+declare namespace Serverless {
+  export type foo = string;
+}
+
 declare type ServerlessProviderDuplo = DuploConfig &{
   name: string;
 }
 
 declare type ServerlessProviderAws = {
   name: string;
-  iam: {
+  iam?: {
     role: string;
   }
+  tags?: {
+    [key: string]: string
+  }
+  vpc?: {
+    securityGroupIds: string[];
+    subnetIds: string[];
+  },
+  compiledCloudFormationTemplate?: {
+      Resources: {
+          [key: string]: string;
+      };
+      Outputs?:
+          | {
+              [key: string]: string;
+          }
+          | undefined;
+  };
+  stackTags?: { [key: string]: string };
+  stage?: string;
+  region?: string;
+  runtime?: string | undefined;
+  timeout?: number | undefined;
+  versionFunctions?: boolean;
+  layers?: Array<string | Record<string, string>> | undefined;
 } 
 
-declare type Serverless = import("serverless") & {
-  getProvider: (name: string) => any;
-  service: {
-    provider: ServerlessProviderDuplo | ServerlessProviderAws;
-    custom: {
-      duplo: DuploConfig
-    }
+declare type ServerlessService = {
+  provider: ServerlessProviderDuplo | ServerlessProviderAws;
+  custom: {
+    duplo: DuploConfig
   }
 }
+
+// declare type DServerless = import("serverless") & {
+//   getProvider: (name: string) => DuplocloudProvider | ;
+//   service: {
+//     provider: ServerlessProviderDuplo | ServerlessProviderAws;
+//     custom: {
+//       duplo: DuploConfig
+//     }
+//   }
+// }
 
 /**
  * The types for serverless don't seem to have the utils exposed correctly.
@@ -40,7 +75,7 @@ declare interface ServerlessOptions {
   region?: string;
 }
 
-interface ServerlessProgress {
+declare interface ServerlessProgress {
   update (message: string): void
 
   remove (): void
@@ -57,7 +92,7 @@ declare interface ServerlessProgressFactory {
 // }
 
 declare type ServerlessUtils = import("serverless/classes/Utils") & {
-  log: Function & {
+  log: (...message: string[]) => void & {
     error: (...message: string[]) => void,
     warn: (...message: string[]) => void,
     info: (...message: string[]) => void

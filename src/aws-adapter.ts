@@ -1,6 +1,6 @@
 import Serverless from 'serverless' 
 import { DuplocloudProvider } from "./provider"
-import { PluginStatic } from 'serverless/classes/Plugin'
+// import { PluginStatic } from 'serverless/classes/Plugin'
 
 export class DuplocloudServerlessAwsAdapter {
 
@@ -37,7 +37,7 @@ export class DuplocloudServerlessAwsAdapter {
   }
 
   async init() {
-    const p = this.serverless.service.provider as any
+    const p = this.serverless.service.provider as unknown as ServerlessProviderAws;
     const vpcConfig = await this.getVpcConfig();
     const iamConfig = await this.getIamConfig();
     const currentTags = p.tags || {};

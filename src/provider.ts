@@ -1,6 +1,6 @@
 import Serverless from 'serverless' 
-import Plugin from 'serverless/classes/Plugin' 
-import { PluginStatic, Logging } from 'serverless/classes/Plugin'
+// import Plugin from 'serverless/classes/Plugin' 
+// import { PluginStatic, Logging } from 'serverless/classes/Plugin'
 import axios, { AxiosRequestConfig, AxiosInstance, AxiosResponse } from 'axios';
 
 const providerName = "duplocloud"
@@ -33,11 +33,10 @@ export class DuplocloudProvider {
   hooks: any;
   naming: { [key: string]: (param?: string) => string };
   api: AxiosInstance;
-  _config: DuploConfig | null = null;
-  _tenant: any;
-  _infra: any;
-  _portal: any;
-  tenantInfo: any;
+  _config: DuploConfig;
+  _tenant: Duplocloud.Tenant;
+  _infra: Duplocloud.Infrastructure;
+  _portal: Duplocloud.Portal;
 
   static getProviderName() {
     return providerName;
@@ -111,9 +110,11 @@ export class DuplocloudProvider {
   async request(
     service: string,
     method: string,
-    params?: {},
-    data?: any,
-    options?: DuploRequestOptions,
+    params?: {
+      [key: string]: string
+    },
+    data?: unknown
+    // options?: DuploRequestOptions,
   ): Promise<AxiosResponse> {
     const rc: AxiosRequestConfig = {
       url: service,
@@ -141,7 +142,7 @@ export class DuplocloudProvider {
   /**
    * Return the results from the v3/features/system endpoint.
    */
-  async getPortalInfo(): Promise<any> {
+  async getPortalInfo(): Promise<Duplocloud.Portal> {
     // use a try/catch block to handle errors and return only the data
     try {
       const response = await this.request('/v3/features/system', 'GET')
@@ -154,12 +155,12 @@ export class DuplocloudProvider {
   /**
    * Get the currently configured tenant object.
    */
-  async getTenant(): Promise<any> {
+  async getTenant(): Promise<Duplocloud.Tenant> {
     if (this._tenant) return this._tenant
     try {
       const res = await this.request('adminproxy/GetTenantNames', 'GET')
       // find the tenant named this.tenant from the list of tenants
-      this._tenant = res.data.find((t: any) => t.AccountName === this._config.tenant);
+      this._tenant = res.data.find((t: Duplocloud.Tenant) => t.AccountName === this._config.tenant);
       return this._tenant;
     } catch (error) {
       this.utils.log('Error getting tenant:', error)
@@ -169,7 +170,7 @@ export class DuplocloudProvider {
   /**
    * Get the infrastructure for this tenant
    */
-  async getInfrastructure(): Promise<any> {
+  async getInfrastructure(): Promise<Duplocloud.Infrastructure> {
     if (this._infra) return this._infra
     try {
       const tenant = await this.getTenant()

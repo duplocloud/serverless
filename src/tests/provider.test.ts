@@ -1,5 +1,6 @@
 import { getMockServerless, mockOptions, mockUtils, getTestData } from './mocks';
 import { DuplocloudProvider } from '../provider';
+import Service from 'serverless/classes/Service'
 
 const simpleService = {
   provider: {
@@ -7,7 +8,7 @@ const simpleService = {
   }
 }
 
-const mockServerless = getMockServerless(simpleService);
+const mockServerless = getMockServerless(simpleService as Service);
 const provider = new DuplocloudProvider(mockServerless, mockOptions, mockUtils);
 
 // Test resolving credentials
@@ -33,7 +34,7 @@ it('should get credentials correctly from service config', async () => {
         token: "iamnotarealtoken"
       }
     }
-  }
+  } as unknown as Service
   const p = new DuplocloudProvider(getMockServerless(service), mockOptions, mockUtils);
   const creds = await p.getCredentials();
   expect(creds).toEqual(service.custom.duplocloud);

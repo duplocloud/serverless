@@ -1,5 +1,6 @@
 import { DuplocloudServerlessAwsAdapter } from "../aws-adapter";
-import { getMockServerless, mockOptions, mockUtils, getTestData } from './mocks';
+import { getMockServerless, mockOptions, mockUtils } from './mocks';
+import Service from 'serverless/classes/Service'
 
 const simpleService = {
   provider: {
@@ -7,7 +8,7 @@ const simpleService = {
   }
 }
 
-const mockServerless = getMockServerless(simpleService);
+const mockServerless = getMockServerless(simpleService as Service);
 const adapter = new DuplocloudServerlessAwsAdapter(mockServerless, mockOptions, mockUtils);
 const vpcConfig = {
   securityGroupIds: [
@@ -43,7 +44,7 @@ it('should get a vpc config correctly', async () => {
 // it should add the iam and vpc config to the serverless.service.provider object
 it('should add the iam and vpc config to the serverless.service.provider object', async () => {
   await adapter.init();
-  const p = adapter.serverless.service.provider as any;
+  const p = adapter.serverless.service.provider as unknown as ServerlessProviderAws;
   expect(p.iam.role).toEqual(iamRole);
   expect(p.vpc.securityGroupIds).toEqual(vpcConfig.securityGroupIds);
   expect(p.vpc.subnetIds).toEqual(vpcConfig.subnetIds);

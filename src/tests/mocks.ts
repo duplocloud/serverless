@@ -1,6 +1,8 @@
 import Serverless from 'serverless'
+import Service from 'serverless/classes/Service'
 import axios from 'axios';
 import { DuplocloudProvider } from '../provider';
+import * as fs from 'fs';
 
 export const mockOptions = {} as Serverless.Options;
 export const mockUtils = {
@@ -9,9 +11,11 @@ export const mockUtils = {
 
 const simpleService = {
   provider: {
-    name: 'aws'
+    name: 'aws',
+    stage: 'dev',
+    region: 'us-west-2',
   }
-}
+} as Service
 
 const mockServerless = getMockServerless(simpleService);
 
@@ -35,7 +39,7 @@ const mockAwsProvider = {
   })
 }
 
-export function getMockServerless(service: any): Serverless {
+export function getMockServerless(service: Service): Serverless {
   return {
     setProvider: jest.fn(),
     getProvider: jest.fn().mockImplementation((provider: string) => {
@@ -53,8 +57,10 @@ export function getMockServerless(service: any): Serverless {
 }
 
 // a function to get a json object from the data folder
-export const getTestData = (filename: string): any => {
-  return require(`${__dirname}/data/${filename}.json`);
+export const getTestData = <T>(filename: string): T => {
+  const file: string = `${__dirname}/data/${filename}.json`;
+  const data = fs.readFileSync(file, { encoding: 'utf8' });
+  return JSON.parse(data) as T;
 }
 
 // Mocking the serverless object
@@ -65,11 +71,6 @@ export const getTestData = (filename: string): any => {
 
 // Mocking utils
 // global.mockUtils = mockUtils;
-
-axios.create = jest.fn().mockReturnValue({
-  defaults: {},
-
-});
 
 axios.create = jest.fn().mockImplementation((defaults) => {
   const testInfra = getTestData("infra");

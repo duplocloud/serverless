@@ -51,8 +51,8 @@ jobs:
     #     lcov-file: ./coverage/lcov.info
     - name: Upload coverage report
       uses: ArtiomTr/jest-coverage-report-action@v2
-      with:
-        # github-token: ${{ steps.setup.outputs.token }}
-        skip-step: all
-        coverage-file: ./coverage/coverage-final.json
-        base-coverage-file: ./coverage/coverage-final.json
+      # with:
+      #   # github-token: ${{ steps.setup.outputs.token }}
+      #   skip-step: all
+      #   coverage-file: ./coverage/coverage-final.json
+      #   base-coverage-file: ./coverage/coverage-final.json

@@ -1,17 +1,27 @@
 {
   "version": "2.0.0",
+  "inputs": [
+    {
+      "id": "bump",
+      "type": "pickString",
+      "description": "Select a bump action to perform",
+      "default": "patch",
+      "options": [
+        "patch",
+        "minor",
+        "major"
+      ]
+    },
+  ],
   "tasks": [
     {
       "label": "build-watch",
       "detail": "Watch and Compile for Debugging",
-      "type": "shell",
-      "command": "npm",
-      "args": [
-        "run",
-        "build",
-        "--",
-        "--watch",
-        "--sourceMap"
+      "type": "npm",
+      "script": "watch",
+      "isBackground": true,
+      "problemMatcher": [
+        "$tsc-watch"
       ],
       "group": {
         "kind": "build",
@@ -21,6 +31,56 @@
         "color": "terminal.ansiCyan",
         "id": "watch"
       }
+    },
+    {
+      "label": "build",
+      "detail": "Build the typescript",
+      "type": "npm",
+      "script": "build",
+      "problemMatcher": [
+        "$tsc"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "icon": {
+        "color": "terminal.ansiGreen",
+        "id": "tools"
+      }
+    },
+    {
+      "label": "Bump Version",
+      "type": "shell",
+      "group": {
+        "kind": "none",
+        "isDefault": false
+      },
+      "command": "npm",
+      "args": [
+        "version",
+        "${input:bump}",
+        "--sign-git-tag"
+      ],
+      "icon": {
+        "color": "terminal.ansiGreen",
+        "id": "versions"
+      }
+    },
+    {
+      "label": "lint",
+      "detail": "Lint the code",
+      "type": "npm",
+      "script": "lint",
+      "problemMatcher": ["$eslint-stylish"],
+      "icon": {
+        "color": "terminal.ansiYellow",
+        "id": "feedback"
+      },
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
     }
   ]
 }

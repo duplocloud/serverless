@@ -13,7 +13,9 @@
       "runtimeArgs": [
         "run",
         "debug"
-      ]
+      ],
+      "preLaunchTask": "build-watch",
+      "sourceMaps": true
     }
   ]
 }

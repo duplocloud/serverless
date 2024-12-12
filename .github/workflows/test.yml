@@ -10,11 +10,8 @@ on:
 
 jobs:
   test:
-    name: Test
+    name: Quality Checks
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: ["18", "19", "20", "21", "22"]
     steps:
 
     - name: Setup
@@ -23,7 +20,6 @@ jobs:
       with:
         app-id: ${{ vars.GH_APP_ID }}
         private-key: ${{ secrets.GH_APP_KEY }}
-        node-version: ${{ matrix.node-version }}
 
     - name: Audit
       id: audit
@@ -50,7 +46,33 @@ jobs:
     # only upload the lcov report from latest version
     - name: Single Artifact
       uses: actions/upload-artifact@v4
-      if: matrix.node-version == '22'
       with:
         name: coverage
         path: coverage
+
+  backwards-compatibility:
+    name: Backwards Compatibility
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: ["18", "19", "20", "21"]
+    steps:
+
+    - name: Setup
+      id: setup
+      uses: duplocloud/serverless/.github/actions/setup@main
+      with:
+        app-id: ${{ vars.GH_APP_ID }}
+        private-key: ${{ secrets.GH_APP_KEY }}
+        node-version: ${{ matrix.node-version }}
+
+    - name: Build
+      id: build
+      run: npm run build
+
+    - name: Test
+      id: test
+      run: >-
+        npm test -- 
+        --ci
+        --coverage=false

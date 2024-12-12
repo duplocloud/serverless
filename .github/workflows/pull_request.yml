@@ -30,32 +30,22 @@ jobs:
       pull-requests: write
       contents: write
     steps:
-    - name: Setup
-      id: setup
-      uses: duplocloud/serverless/.github/actions/setup@main
-      with:
-        app-id: ${{ vars.GH_APP_ID }}
-        private-key: ${{ secrets.GH_APP_KEY }}
-    # download the coverage report artifact
+
     - name: Download coverage report
       uses: actions/download-artifact@v4
       with:
         name: coverage
         path: coverage
-    - name: Upload coverage report
+
+    - name: Generate PR Coverage Report
       id: coverage
       uses: ArtiomTr/jest-coverage-report-action@v2
       with:
-        # test-script: npm test
         skip-step: all
         output: report-markdown
         coverage-file: ./coverage/report.json
         base-coverage-file: ./coverage/report.json
-    - name: Info
-      run: |
-        ls -al ./
-        echo "Showing coverage dir"
-        ls -al ./coverage/
+
     - name: Update PR
       uses: marocchino/sticky-pull-request-comment@v2
       with:

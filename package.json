@@ -1,6 +1,6 @@
 {
   "name": "serverless-duplocloud",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A plugin and provider for the serverless framework",
   "main": "dist/index.js",
   "repository": {

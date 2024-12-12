@@ -28,20 +28,21 @@ const config: Config = {
   coverageDirectory: "coverage",
 
   // An array of regexp pattern strings used to skip coverage collection
-  // coveragePathIgnorePatterns: [
-  //   "/node_modules/"
-  // ],
+  coveragePathIgnorePatterns: [
+    "/node_modules/",
+    "./src/tests/"
+  ],
 
   // Indicates which provider should be used to instrument code for coverage
   coverageProvider: "v8",
 
   // A list of reporter names that Jest uses when writing coverage reports
-  // coverageReporters: [
-  //   "json",
-  //   "text",
-  //   "lcov",
-  //   "clover"
-  // ],
+  coverageReporters: [
+    "json",
+    "text",
+    "lcov",
+    "clover"
+  ],
 
   // An object that configures minimum threshold enforcement for coverage results
   // coverageThreshold: undefined,
@@ -134,10 +135,14 @@ const config: Config = {
   // runner: "jest-runner",
 
   // The paths to modules that run some code to configure or set up the testing environment before each test
-  // setupFiles: [],
+  setupFiles: [
+    "./src/tests/jest.setup.ts"
+  ],
 
   // A list of paths to modules that run some code to configure or set up the testing framework before each test
-  // setupFilesAfterEnv: [],
+  // setupFilesAfterEnv: [
+  //   "tests/jest.setup.ts"
+  // ],
 
   // The number of seconds after which a test is considered as slow and reported as such in the results.
   // slowTestThreshold: 5,

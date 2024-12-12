@@ -1,0 +1,76 @@
+{
+  "Minions": [],
+  "OperationalPods": [],
+  "NwProvider": 0,
+  "InfraOwner": "",
+  "StorageAccounts": [],
+  "TenantPolicy": {
+    "IamPolicies": [],
+    "AllowVolumeMapping": false,
+    "BlockExternalEp": false
+  },
+  "TenantAccessGrants": [],
+  "RegistryCredentials": "",
+  "MonitoringCfg": {
+    "AlertPublishFrequency": 0
+  },
+  "AsgProfiles": [],
+  "NativeHosts": [],
+  "AgentPools": [],
+  "Tasks": [],
+  "Tags": [
+    {
+      "Key": "duplo-project",
+      "Value": "bartest"
+    },
+    {
+      "Key": "TENANT_NAME",
+      "Value": "bartest"
+    }
+  ],
+  "EcsServices": [],
+  "Metadata": [
+    {
+      "Key": "delete_protection",
+      "Value": "true"
+    },
+    {
+      "Key": "kms_key_rotation_enabled",
+      "Value": "true"
+    },
+    {
+      "Key": "block_public_access_to_s3",
+      "Value": "true"
+    },
+    {
+      "Key": "enforce_ssl_for_s3",
+      "Value": "true"
+    },
+    {
+      "Key": "enable_node_to_node_encryption_for_es",
+      "Value": "true"
+    },
+    {
+      "Key": "enforce_ssl_for_es",
+      "Value": "true"
+    },
+    {
+      "Key": "use_latest_tls_cipher_for_es",
+      "Value": "true"
+    },
+    {
+      "Key": "enable_ecs_cloud_watch_logging",
+      "Value": "true"
+    }
+  ],
+  "CreationTime": "10/28/2024 9:55:26 PM",
+  "UseLbIndex": true,
+  "TenantId": "1234abcd-12ab-8f8f-1m1m-1234abcd9876",
+  "AccountName": "bartest",
+  "PlanID": "myinfra",
+  "ReplicationControllers": {},
+  "Networks": {},
+  "RDSInstances": {},
+  "ECacheInstances": {},
+  "Devices": []
+}

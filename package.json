@@ -20,8 +20,7 @@
     "test": "jest",
     "debug": "node --enable-source-maps -r ts-node/register --inspect $(which serverless) print --config examples/simple/serverless.yml --stage dev01",
     "lint": "eslint --quiet 'src/**/*.ts'",
-    "build": "NODE_PATH=src/ TS_NODE_FILES=true tsc",
-    "build:prod": "TS_NODE_FILES=true tsc -p tsconfig.prod.json",
+    "build": "NODE_PATH=src/ TS_NODE_FILES=true tsc -p tsconfig.build.json",
     "clean": "rm -rf node_modules dist coverage",
     "example": "sls print --config examples/simple/serverless.yml --stage dev01"
   },

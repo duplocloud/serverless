@@ -3,17 +3,23 @@
   "tasks": [
     {
       "label": "build-watch",
+      "detail": "Watch and Compile for Debugging",
       "type": "shell",
       "command": "npm",
       "args": [
         "run",
         "build",
         "--",
-        "--watch"
+        "--watch",
+        "--sourceMap"
       ],
       "group": {
         "kind": "build",
         "isDefault": true
+      },
+      "icon": {
+        "color": "terminal.ansiCyan",
+        "id": "watch"
       }
     }
   ]

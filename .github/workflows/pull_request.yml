@@ -40,8 +40,15 @@ jobs:
         path: coverage
     - name: Info
       run: ls -al coverage
+    # - name: Upload coverage report
+    #   uses: vebr/jest-lcov-reporter@v0.2.0
+    #   with:
+    #     github-token: ${{ secrets.GITHUB_TOKEN }}
+    #     lcov-file: ./coverage/lcov.info
     - name: Upload coverage report
-      uses: vebr/jest-lcov-reporter@v0.2.0
+      uses: ArtiomTr/jest-coverage-report-action@v2
       with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        lcov-file: ./coverage/lcov.info
+        github-token: ${{ steps.setup.outputs.token }}
+        skip-step: all
+        coverage-file: ./coverage/coverage-final.json
+        base-coverage-file: ./coverage/coverage-final.json

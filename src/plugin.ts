@@ -10,8 +10,6 @@ export class DuplocloudServerless {
   options: Serverless.Options
   config: DuploConfig
   utils: ServerlessUtils
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  hooks: any;
 
   constructor(serverless: Serverless, options: Serverless.Options, utils: ServerlessUtils) {
     this.serverless = serverless
@@ -19,13 +17,5 @@ export class DuplocloudServerless {
     this.utils = utils
     this.serverless.pluginManager.addPlugin(DuplocloudProvider as unknown as PluginStatic)
     this.serverless.pluginManager.addPlugin(DuplocloudServerlessAwsAdapter as unknown as PluginStatic)
-    this.hooks = {
-      initialize: () => this.init()
-    }
   }
-
-  init() {
-    this.utils.log('A plugin named duplocloud')
-  }
-
 }

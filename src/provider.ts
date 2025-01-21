@@ -46,15 +46,7 @@ export class DuplocloudProvider {
     this.serverless = serverless;
     this.options = options;
     this.utils = utils;
-    // this.provider = this;
     this.serverless.setProvider(providerName, this);
-    this.hooks = {
-      initialize: async () => this.init()
-    }
-  }
-
-  async init(): Promise<void> {
-    this.utils.log(`The provider named ${providerName} loaded`)
   }
 
   getProviderName() {

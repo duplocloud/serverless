@@ -83,12 +83,6 @@ it('should call the get infra just fine', async () => {
   expect(infra).toEqual(testInfra);
 })
 
-it('should log provider name when initialized', async () => {
-  // const provider = new DuplocloudProvider(mockServerless, mockOptions, mockUtils);
-  await provider.init();
-  expect(mockUtils.log).toHaveBeenCalledWith('The provider named duplocloud loaded');
-});
-
 it('should say hello', async () => {
   expect(true).toBe(true);
 });

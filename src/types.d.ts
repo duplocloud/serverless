@@ -2,9 +2,28 @@
  * The custom config variable from the serverless file.
  */
 declare type DuploConfig = {
-  token?: string;
   host?: string;
   tenant?: string;
+  usePrefix?: boolean;
+  useImages?: boolean;
+  localMode?: boolean;
+  admin?: boolean;
+  homeDir?: string;
+  cacheDir?: string;
+  configFile?: string;
+  context?: string;
+  token?: string;
+}
+
+/**
+ * The credentials object all of the duplo tools use
+ */
+declare type DuploCredentials = {
+  Version?: string;
+  DuploToken?: string;
+  Expiration?: string;
+  NeedOTP?: boolean;
+  DuploHost?: string;
 }
 
 declare namespace Serverless {

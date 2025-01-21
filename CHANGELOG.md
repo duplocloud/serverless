@@ -12,3 +12,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
  - working tests with mocks
  - actual aws adapter implementation
  - all of the ci/cd pipeline
+ - use cached token if available
+ - add duplos name prefix on functions when usePrefix is true

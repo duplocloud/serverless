@@ -2,6 +2,8 @@ import Serverless from 'serverless'
 // import Plugin from 'serverless/classes/Plugin' 
 // import { PluginStatic, Logging } from 'serverless/classes/Plugin'
 import axios, { AxiosRequestConfig, AxiosInstance, AxiosResponse } from 'axios';
+import { DuploError } from './error'
+import fs from 'node:fs/promises';
 
 const providerName = "duplocloud"
 
@@ -34,6 +36,7 @@ export class DuplocloudProvider {
   naming: { [key: string]: (param?: string) => string };
   api: AxiosInstance;
   _config: DuploConfig;
+  _creds: DuploCredentials;
   _tenant: Duplocloud.Tenant;
   _infra: Duplocloud.Infrastructure;
   _portal: Duplocloud.Portal;
@@ -53,34 +56,93 @@ export class DuplocloudProvider {
     return providerName;
   }
 
-  async resolveCredentials(): Promise<DuploConfig> {
+  async resolveConfig(): Promise<DuploConfig> {
     const service = this.serverless.service;
-    let config: DuploConfig | ServerlessProviderDuplo = {}
+    let config: DuploConfig | ServerlessProviderDuplo
     // when using duplocloud provider, the provider section has the configuration
     if (service.provider.name === providerName) {
       config = service.provider as ServerlessProviderDuplo
-    // otherwise the duplocloud config is in the custom section
-    } else {
-      config = service?.custom?.duplocloud || {}
+    } else { // otherwise the duplocloud config is in the custom section
+      if (!service?.custom) service.custom = {}
+      if (!service.custom?.duplocloud) service.custom.duplocloud = {}
+      config = service.custom.duplocloud
+    }
+    // discover home directory
+    if (!config.hasOwnProperty('homeDir')) {
+      config.homeDir = process.env?.DUPLO_HOME || `${process.env.HOME}/.duplo`
+    }
+    // discover cache directory which defaults to a dir within homeDir
+    if (!config.hasOwnProperty('cacheDir')) {
+      config.cacheDir = process.env?.DUPLO_CACHE || `${config.homeDir}/cache`
+    }
+    if (!config.hasOwnProperty('configFile')) {
+      config.configFile = process.env?.DUPLO_CONFIG || `${config.homeDir}/config`
+    }
+    if (!config.hasOwnProperty('context')) {
+      config.context = process.env?.DUPLO_CONTEXT
     }
     // if there is no host, token or tenant then get them from the environment
-    if (!config.host) {
+    if (!config.hasOwnProperty('host')) {
       config.host = process.env?.DUPLO_HOST
     }
-    if (!config.token) {
-      config.token = process.env?.DUPLO_TOKEN
-    }
-    if (!config.tenant) {
+    if (!config.hasOwnProperty('tenant')) {
       config.tenant = process.env?.DUPLO_TENANT || 'default'
+    }
+    if (!config.hasOwnProperty('usePrefix')) {
+      config.usePrefix = true
+    }
+    if (!config.hasOwnProperty('useImages')) {
+      config.useImages = true
+    }
+    if (!config.hasOwnProperty('localMode')) {
+      config.localMode = false
+    }
+    // default the admin to true because we do need it for the aws api, most of the time ...
+    if (!config.hasOwnProperty('admin')) {
+      config.admin = true 
     }
     return config
   }
 
-  async getCredentials(): Promise<DuploConfig> {
+  async getConfig(): Promise<DuploConfig> {
     if (!this._config) {
-      this._config = await this.resolveCredentials()
+      this._config = await this.resolveConfig()
     }
     return this._config
+  }
+
+  async resolveCredentials(): Promise<DuploCredentials> {
+    const config = await this.getConfig()
+    // start with the configs token as the highest priority, then env vars
+    let creds: DuploCredentials = {
+      Version: "v1",
+      DuploToken: config?.token || process.env?.DUPLO_TOKEN,
+      DuploHost: config.host
+    }
+    // if still no token then let's go check the cache
+    if (!creds.DuploToken) {
+      const h = config.host.split("://")[1].replace("/", "");
+      const parts = [h];
+      if (config.admin) parts.push("admin");
+      parts.push("duplo-creds");
+      const cacheKey = parts.join(",");
+      const cacheFile = `${config.cacheDir}/${cacheKey}.json`
+      try {
+        const data = await fs.readFile(cacheFile, { encoding: 'utf8' })
+        creds = JSON.parse(data.toString());
+        creds.DuploHost = config.host;
+      } catch (error) {
+        this.utils.log('Error reading cache file:', error)
+      }
+    }
+    return creds
+  }
+
+  async getCredentials(): Promise<DuploCredentials> {
+    if (!this._creds) {
+      this._creds = await this.resolveCredentials()
+    }
+    return this._creds
   }
 
   async getServerlessDeploymentBucketName(): Promise<string> {
@@ -116,16 +178,16 @@ export class DuplocloudProvider {
     }
     // if the api has not been set yet, then set it
     if (!this.api) await this.setApi();
-    return this.api.request(rc)
+    return this.api.request(rc);
   }
 
   async setApi() {
-    this._config = await this.getCredentials();
+    const creds = await this.getCredentials();
     this.api = axios.create({
-      baseURL: this._config.host,
+      baseURL: creds.DuploHost,
       timeout: 1000,
       headers: {
-        'Authorization': `Bearer ${this._config.token}`,
+        'Authorization': `Bearer ${creds.DuploToken}`,
         'Content-Type': 'application/json'
       }
     });

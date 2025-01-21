@@ -31,12 +31,14 @@ it('should initialize provider properties when constructed', () => {
 });
 
 it('should get an iam role correctly', async () => {
-  const role = await adapter.getIamConfig();
+  const config = await adapter.duplo.getConfig();
+  const role = await adapter.getIamConfig(config);
   expect(role).toEqual({ role: iamRole });
 });
 
 it('should get a vpc config correctly', async () => {
-  const vpc = await adapter.getVpcConfig();
+  const config = await adapter.duplo.getConfig();
+  const vpc = await adapter.getVpcConfig(config);
   expect(vpc.securityGroupIds).toEqual(vpcConfig.securityGroupIds);
   expect(vpc.subnetIds).toEqual(vpcConfig.subnetIds);
 });

@@ -15,9 +15,9 @@ const provider = new DuplocloudProvider(mockServerless, mockOptions, mockUtils);
 it('should resolve credentials correctly', async () => {
   const creds = await provider.resolveCredentials();
   expect(creds).toEqual({
-    host: 'https://foo.duplocloud.net',
-    tenant: 'bartest',
-    token: 'abc123def456'
+    Version: "v1",
+    DuploHost: 'https://foo.duplocloud.net',
+    DuploToken: 'abc123def456'
   });
 });
 
@@ -36,8 +36,12 @@ it('should get credentials correctly from service config', async () => {
     }
   } as unknown as Service
   const p = new DuplocloudProvider(getMockServerless(service), mockOptions, mockUtils);
+  const config = await p.getConfig();
   const creds = await p.getCredentials();
-  expect(creds).toEqual(service.custom.duplocloud);
+  expect(config.host).toEqual("https://bar.fuz.net");
+  expect(config.tenant).toEqual("bubbles");
+  expect(creds.DuploToken).toEqual("iamnotarealtoken");
+
 });
 
 // Constructor initializes serverless, options and utils properties correctly

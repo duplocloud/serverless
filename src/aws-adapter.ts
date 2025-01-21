@@ -94,7 +94,7 @@ export class DuplocloudServerlessAwsAdapter {
   }
 
   async prefixFunctionNames(config: DuploConfig) {
-    if (this.serverless.service.hasOwnProperty('functions')) {
+    if ('functions' in this.serverless.service) {
       for (const [name, func] of Object.entries(this.serverless.service.functions)) {
         func.name = `duploservices-${config.tenant}-${name}`;
       }

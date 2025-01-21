@@ -68,37 +68,37 @@ export class DuplocloudProvider {
       config = service.custom.duplocloud
     }
     // discover home directory
-    if (!config.hasOwnProperty('homeDir')) {
+    if (!('homeDir' in config)) {
       config.homeDir = process.env?.DUPLO_HOME || `${process.env.HOME}/.duplo`
     }
     // discover cache directory which defaults to a dir within homeDir
-    if (!config.hasOwnProperty('cacheDir')) {
+    if (!('cacheDir' in config)) {
       config.cacheDir = process.env?.DUPLO_CACHE || `${config.homeDir}/cache`
     }
-    if (!config.hasOwnProperty('configFile')) {
+    if (!('configFile' in config)) {
       config.configFile = process.env?.DUPLO_CONFIG || `${config.homeDir}/config`
     }
-    if (!config.hasOwnProperty('context')) {
+    if (!('context' in config)) {
       config.context = process.env?.DUPLO_CONTEXT
     }
     // if there is no host, token or tenant then get them from the environment
-    if (!config.hasOwnProperty('host')) {
+    if (!('host' in config)) {
       config.host = process.env?.DUPLO_HOST
     }
-    if (!config.hasOwnProperty('tenant')) {
+    if (!('tenant' in config)) {
       config.tenant = process.env?.DUPLO_TENANT || 'default'
     }
-    if (!config.hasOwnProperty('usePrefix')) {
+    if (!('usePrefix' in config)) {
       config.usePrefix = true
     }
-    if (!config.hasOwnProperty('useImages')) {
+    if (!('useImages' in config)) {
       config.useImages = true
     }
-    if (!config.hasOwnProperty('localMode')) {
+    if (!('localMode' in config)) {
       config.localMode = false
     }
     // default the admin to true because we do need it for the aws api, most of the time ...
-    if (!config.hasOwnProperty('admin')) {
+    if (!('admin' in config)) {
       config.admin = true 
     }
     return config
@@ -132,7 +132,8 @@ export class DuplocloudProvider {
         creds = JSON.parse(data.toString());
         creds.DuploHost = config.host;
       } catch (error) {
-        this.utils.log('Error reading cache file:', error)
+        this.utils.log('Error reading cache file:', error);
+        throw new DuploError('No DuploCloud token found');
       }
     }
     return creds

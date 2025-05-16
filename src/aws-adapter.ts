@@ -40,19 +40,21 @@ export class DuplocloudServerlessAwsAdapter {
 
   async init() {
     const config = await this.duplo.getConfig();
-    const p = this.serverless.service.provider as unknown as ServerlessProviderAws;
-    const vpcConfig = await this.getVpcConfig(config);
-    const iamConfig = await this.getIamConfig(config);
-    const currentTags = p.tags || {};
-    const tags = await this.getTags(config);
-    p.iam = iamConfig;
-    p.vpc = vpcConfig;
-    p.tags = {
-      ...currentTags,
-      ...tags
-    }
-    if (config.usePrefix) {
-      await this.prefixFunctionNames(config);
+    if (config.enabled) {
+      const p = this.serverless.service.provider as unknown as ServerlessProviderAws;
+      const vpcConfig = await this.getVpcConfig(config);
+      const iamConfig = await this.getIamConfig(config);
+      const currentTags = p.tags || {};
+      const tags = await this.getTags(config);
+      p.iam = iamConfig;
+      p.vpc = vpcConfig;
+      p.tags = {
+        ...currentTags,
+        ...tags
+      }
+      if (config.usePrefix) {
+        await this.prefixFunctionNames(config);
+      }
     }
   }
 

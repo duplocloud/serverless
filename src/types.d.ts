@@ -2,6 +2,7 @@
  * The custom config variable from the serverless file.
  */
 declare type DuploConfig = {
+  enabled?: boolean;
   host?: string;
   tenant?: string;
   usePrefix?: boolean;

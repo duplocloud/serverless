@@ -3,31 +3,21 @@ name: NPM Package
 on:
   workflow_dispatch: 
     inputs:
+      action:
+        description: Version to bump to
+        default: patch
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+          - premajor
+          - preminor
+          - prepatch
       push:
         description: Push the artifact to npmjs?
         default: false
         type: boolean
-      tag:
-        description: Tag to push
-        required: false
-        type: string
-  workflow_call: 
-    inputs:
-      push:
-        description: Push the artifact to npmjs?
-        default: true
-        type: boolean
-      tag:
-        description: Tag to push
-        required: false
-        type: string
-    secrets:
-      NPM_TOKEN:
-        description: NPM token
-        required: true
-      GH_APP_KEY:
-        description: GitHub App private key
-        required: true
 
 jobs:
   package:
@@ -44,9 +34,16 @@ jobs:
       id: setup
       uses: duplocloud/serverless/.github/actions/setup@main
       with:
-        ref: ${{ inputs.tag }}
         app-id: ${{ vars.GH_APP_ID }}
         private-key: ${{ secrets.GH_APP_KEY }}
+
+    - name: NPM Version
+      id: version
+      env:
+        ACTION: ${{ inputs.action }}
+      run: |
+        TAG=$(npm version "$ACTION" --no-git-tag-version)
+        echo "tag=$TAG" >> "$GITHUB_OUTPUT"
 
     - name: Build
       id: build
@@ -62,9 +59,45 @@ jobs:
         name: package
         path: serverless-duplocloud-*.tgz
 
+    - name: Bump Version
+      id: bump
+      uses: duplocloud/version-action@main
+      with:
+        version: ${{ steps.version.outputs.tag }}
+        push: ${{ inputs.push }}
+        token: ${{ steps.setup.outputs.token }}
+        files: package.json
+
     - name: Publish
       id: publish
-      if: ${{ inputs.push }}
+      if: inputs.push
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       run: npm publish --provenance --access public
+
+    - name: Create Release
+      id: release
+      if: inputs.push
+      uses: softprops/action-gh-release@v2
+      with:
+        token: ${{ steps.setup.outputs.token }}
+        name: ${{ steps.bump.outputs.tag }}
+        tag_name: ${{ steps.bump.outputs.tag }}
+        prerelease: false
+        body: |
+          [![Publish](${{ github.server_url }}/${{ github.repository }}/actions/workflows/publish.yml/badge.svg)](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) [![NPM Version](https://img.shields.io/npm/v/serverless-duplocloud)](https://www.npmjs.com/package/serverless-duplocloud)
+
+          ${{ steps.bump.outputs.release-notes }}
+
+    - name: Summary
+      run: |
+        cat <<EOF > "$GITHUB_STEP_SUMMARY"
+        [![Release](https://img.shields.io/badge/Github-Release-blue?style=flat-square&logo=github)](${{ steps.release.outputs.url || '' }})
+        
+        New Version: ${{ steps.bump.outputs.version }}
+        Previous Version: ${{ steps.bump.outputs.previous-version }}
+
+        Release Notes: 
+        --------------
+        ${{ steps.bump.outputs.release-notes }}
+        EOF

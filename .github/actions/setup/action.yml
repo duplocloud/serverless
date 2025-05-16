@@ -23,7 +23,7 @@ inputs:
   repositories:
     description: The repositories to get tokens for.
     required: false
-    default: duploctl
+    default: serverless
   submodules:
     description: Whether to fetch submodules
     required: false

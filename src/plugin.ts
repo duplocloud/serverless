@@ -15,7 +15,7 @@ export class DuplocloudServerless {
     this.serverless = serverless
     this.options = options
     this.utils = utils
-    this.serverless.pluginManager.addPlugin(DuplocloudProvider as unknown as PluginStatic)
-    this.serverless.pluginManager.addPlugin(DuplocloudServerlessAwsAdapter as unknown as PluginStatic)
-  }
+      this.serverless.pluginManager.addPlugin(DuplocloudProvider as unknown as PluginStatic)
+      this.serverless.pluginManager.addPlugin(DuplocloudServerlessAwsAdapter as unknown as PluginStatic)
+      }
 }

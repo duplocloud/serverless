@@ -1,9 +1,13 @@
 app: myapp
 service: hello-world
 
+# stages key is v4 only, v3 needs param to have a default like seen below under custom
 stages: 
   dev01:
     observability: false
+    params:
+      duplo: true
+  
 
 provider:
   name: aws
@@ -18,6 +22,8 @@ custom:
   duplocloud:
     tenant: ${opt:stage}
     usePrefix: true
+    # only v3 needs the default below because it cannot be set under stages
+    enabled: ${param:duplo,false}
 
 functions:
   helloworld:

@@ -1,5 +1,8 @@
 # Duplocloud Serverless Provider  
 
+[![NPM Version](https://img.shields.io/npm/v/serverless-duplocloud)
+](https://www.npmjs.com/package/serverless-duplocloud)
+
 A serverless plugin which can adapt the aws provider for Duplocloud or be used as a first class serverless provider. 
 
 ## Installation

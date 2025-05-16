@@ -1,4 +1,4 @@
-name: NPM Package
+name: 🛰 Publish Version
 
 on:
   workflow_dispatch: 

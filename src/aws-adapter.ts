@@ -39,8 +39,8 @@ export class DuplocloudServerlessAwsAdapter {
   }
 
   async init() {
-    if (this.serverless.service.custom.duplocloud.enabled) {
-      const config = await this.duplo.getConfig();
+    const config = await this.duplo.getConfig();
+    if (config.enabled) {
       const p = this.serverless.service.provider as unknown as ServerlessProviderAws;
       const vpcConfig = await this.getVpcConfig(config);
       const iamConfig = await this.getIamConfig(config);

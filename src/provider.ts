@@ -67,6 +67,9 @@ export class DuplocloudProvider {
       if (!service.custom?.duplocloud) service.custom.duplocloud = {}
       config = service.custom.duplocloud
     }
+    if (!('enabled' in config)) {
+      config.enabled = true
+    }
     // discover home directory
     if (!('homeDir' in config)) {
       config.homeDir = process.env?.DUPLO_HOME || `${process.env.HOME}/.duplo`

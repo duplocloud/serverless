@@ -4,22 +4,20 @@ service: hello-world
 stages: 
   dev01:
     observability: false
-  legacy:
-    observability: true
 
 provider:
-  name: aws
+  name: duplocloud
   runtime: nodejs20.x
   timeout: 30  
   stage: dev01
-  region: us-west-2
+  tenant: ${opt:stage}
   tags:
     App: "${self:app}"
 
-custom:
-  duplocloud:
-    tenant: ${opt:stage}
-    usePrefix: ohyeah
+tenant: 
+  dev01: 
+    name: dev01
+    infra: nonprod02
 
 functions:
   helloworld:

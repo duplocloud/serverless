@@ -2,8 +2,10 @@ import Serverless from 'serverless'
 // import Plugin from 'serverless/classes/Plugin' 
 // import { PluginStatic, Logging } from 'serverless/classes/Plugin'
 import axios, { AxiosRequestConfig, AxiosInstance, AxiosResponse } from 'axios';
+import { setupCache } from 'axios-cache-interceptor';
 import { DuploError } from './error'
 import fs from 'node:fs/promises';
+import { DuplocloudCustomVariable } from "./schema"
 
 const providerName = "duplocloud"
 
@@ -29,10 +31,6 @@ export class DuplocloudProvider {
   serverless: Serverless;
   options: Serverless.Options;
   utils: ServerlessUtils;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  provider: any;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  hooks: any;
   naming: { [key: string]: (param?: string) => string };
   api: AxiosInstance;
   _config: DuploConfig;
@@ -50,6 +48,7 @@ export class DuplocloudProvider {
     this.options = options;
     this.utils = utils;
     this.serverless.setProvider(providerName, this);
+    serverless.configSchemaHandler.defineCustomProperties(DuplocloudCustomVariable);
   }
 
   getProviderName() {
@@ -192,6 +191,7 @@ export class DuplocloudProvider {
         'Content-Type': 'application/json'
       }
     });
+    // this.api = setupCache(api);
   }
 
   /**

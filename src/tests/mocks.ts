@@ -52,6 +52,9 @@ export function getMockServerless(service: Service): Serverless {
     pluginManager: {
       addPlugin: jest.fn()
     },
+    configSchemaHandler: {
+      defineCustomProperties: jest.fn(),
+    },
     service
   } as unknown as Serverless;
 }

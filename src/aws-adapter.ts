@@ -25,17 +25,6 @@ export class DuplocloudServerlessAwsAdapter {
     this.hooks = {
       initialize: () => this.init()
     };
-    // this.configurationVariablesSources = {
-    //   duplo: {
-    //     resolve: async ({ address, params }) => {
-    //       const dp = this.serverless.getProvider('duplocloud');
-    //       const config = await dp.getCredentials();
-    //       return {
-    //         value: config[address]
-    //       }
-    //     },
-    //   },
-    // };
   }
 
   async init() {

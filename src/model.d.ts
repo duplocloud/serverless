@@ -35,4 +35,24 @@ declare namespace Duplocloud {
   interface Portal {
     DefaultAwsAccount: string;
   }
+  interface Lambda {
+    FunctionName: string;
+    PackageType: string;
+    Description?: string;
+    Timeout?: number;
+    MemorySize?: number;
+    Tags?: {
+      [key: string]: string;
+    }
+    Environment?: { 
+      Variables: {
+        [key: string]: string;
+      }
+    }
+    Code: {
+      ImageUri?: string;
+    }
+    Layers?: string[];
+    ImageConfig?: {}
+  }
 }

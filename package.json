@@ -28,7 +28,6 @@
     "build": "NODE_PATH=src/ TS_NODE_FILES=true tsc -p tsconfig.build.json",
     "clean": "rm -rf node_modules dist coverage",
     "example": "sls print --config examples/simple/serverless.yml --stage dev01",
-    "postversion": "git push origin && git push --tags",
     "watch": "npm run build -- --watch --sourceMap"
   },
   "files": [
